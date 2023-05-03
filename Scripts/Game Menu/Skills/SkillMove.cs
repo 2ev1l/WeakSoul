@@ -1,0 +1,65 @@
+using Data;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Universal;
+
+namespace WeakSoul.GameMenu.Skills
+{
+	[RequireComponent(typeof(Image))]
+	[RequireComponent(typeof(CursorChanger))]
+	[RequireComponent(typeof(ShowSkillHelp))]
+	public class SkillMove : MaterialRaycastChanger, IPointerClickHandler
+	{
+		#region fields & properties
+		[SerializeField] private SkillRender skillRender;
+		private ShowSkillHelp Help
+		{
+			get
+			{
+				help = help == null ? GetComponent<ShowSkillHelp>() : help;
+				return help;
+			}
+		}
+		private ShowSkillHelp help;
+		[SerializeField] private ShowTextHelp attackHelpWarning;
+		#endregion fields & properties
+
+		#region methods
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			if (eventData.button != PointerEventData.InputButton.Left || attackHelpWarning.enabled) return;
+			if (SkillsPanelInit.CellController.FreeCell != -1)
+				GameData.Data.PlayerData.Skills.SetItem(skillRender.Id, SkillsPanelInit.CellController.FreeCell);
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns>Is skill allowed</returns>
+		public bool CheckSkillAllow()
+		{
+			if (skillRender.Skill.SkillType != SkillType.Attack)
+			{
+				SetDefaultHelp();
+				return true;
+			}
+			PlayerData playerData = GameData.Data.PlayerData;
+			int attackSkillsCount = 0;
+			foreach (var el in playerData.Skills.GetFilledItems())
+			{
+				if (SkillsInfo.Instance.GetSkill(el).SkillType == SkillType.Attack)
+					attackSkillsCount++;
+			}
+			attackHelpWarning.enabled = attackSkillsCount > 1;
+			return !attackHelpWarning.enabled;
+		}
+		public void SetDefaultHelp()
+		{
+			Help.enabled = true;
+			attackHelpWarning.enabled = false;
+		}
+		#endregion methods
+	}
+}
