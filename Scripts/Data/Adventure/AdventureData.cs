@@ -60,7 +60,7 @@ namespace Data
 			if (playerLevel >= 45 && !IsBossDefeated(bossId)) return true;
 
 			bossId = 4;
-			if (playerLevel >= 51 && !IsBossDefeated(bossId)) return true;
+			if (playerLevel >= 51) return true;
 			return false;
 		}
 		public bool IsBossNotDefeatedWhenMust(out int bossId)
@@ -91,9 +91,9 @@ namespace Data
 		}
 		public int GetCutSceneIdByBossId(int bossId) => bossId switch
 		{
-			0 => -1, //todo cut scenes ?
+			0 => 1,
 			1 => -1,
-			2 => -1,
+			2 => 2,
 			3 => -1,
 			4 => -1,
 			_ => throw new System.NotImplementedException($"Boss id {bossId} for cut scene"),
@@ -110,7 +110,8 @@ namespace Data
 				2 => Direction.W,
 				3 => Direction.SE,
 				4 => Direction.N,
-				_ => throw new System.NotImplementedException("boss id")
+				5 => Direction.N, //after final
+                _ => throw new System.NotImplementedException("boss id")
 			};
 		}
 		public int GetCurrentBossId()
@@ -131,6 +132,7 @@ namespace Data
 				case 2: result.AddRange(new Direction[] { Direction.NW, CustomMath.GetRandomChance(20) ? Direction.N : Direction.W }); break;
 				case 3: result.AddRange(new Direction[] { Direction.S, Direction.E }); break;
 				case 4: result.AddRange(new Direction[] { Direction.NE, CustomMath.GetRandomChance(20) ? Direction.E : Direction.N }); break;
+				case 5: result.AddRange(new Direction[] { Direction.NE, CustomMath.GetRandomChance(20) ? Direction.E : Direction.N }); break; //after final
 				default: throw new System.NotImplementedException("boss id");
 			};
 			return result;

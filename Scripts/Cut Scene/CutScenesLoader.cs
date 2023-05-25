@@ -17,9 +17,8 @@ namespace WeakSoul.CutScene
 		private bool isSecondInvoked;
 		public float TimeLasts { get; private set; }
 		public int ActiveSceneId { get; private set; } = -1;
-		public string CurrentText => LanguageLoader.GetTextByType(TextType.CutScene, currentScene.TextId);
-
-		public CutSceneInfo currentScene => SceneInit.ActiveGroup.CutScenes[ActiveSceneId];
+		public string CurrentText => LanguageLoader.GetTextByType(TextType.CutScene, CurrentScene.TextId);
+		public CutSceneInfo CurrentScene => SceneInit.ActiveGroup.CutScenes[ActiveSceneId];
 		#endregion fields & properties
 
 		#region methods
@@ -39,7 +38,7 @@ namespace WeakSoul.CutScene
 		{
 			if (++ActiveSceneId >= SceneInit.ActiveGroup.CutScenes.Count)
 			{
-				SceneLoader.Instance.LoadSceneFade("Game Menu", 0f);
+				SceneLoader.Instance.LoadSceneFade(SceneInit.ActiveGroup.SceneToLoad, 0f);
 				return;
 			}
 			isSecondInvoked = false;

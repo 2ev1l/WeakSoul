@@ -12,6 +12,7 @@ namespace Data
         WitchInfo,
         Boss2Info,
         Boss2Completed,
-        ShopRestore
+        ShopRestore,
+        PortalInfo
 	}
 }

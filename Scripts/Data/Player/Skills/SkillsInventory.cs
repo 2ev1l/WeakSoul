@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Data
 {
@@ -9,7 +10,12 @@ namespace Data
 	public class SkillsInventory : InventoryData
 	{
 		#region fields & properties
-		[SerializeField] private List<int> openedSkills = new();
+		/// <summary>
+		/// <see cref="{T0}"/> - skillId;
+		/// </summary>
+		public UnityAction<int> OnSkillOpened;
+		public IEnumerable<int> OpenedSkills => openedSkills;
+        [SerializeField] private List<int> openedSkills = new();
 		public IEnumerable<int> TempOpenedSkills => tempOpenedSkills;
 		[SerializeField] private List<int> tempOpenedSkills = new();
 		#endregion fields & properties
@@ -21,7 +27,8 @@ namespace Data
 		{
 			if (IsSkillOpened(skillId)) return false;
 			openedSkills.Add(skillId);
-			return true;
+            OnSkillOpened?.Invoke(skillId);
+            return true;
 		}
 		public bool TryAddTempOpenedSkill(int skillId, bool force = false)
 		{

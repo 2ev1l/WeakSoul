@@ -9,6 +9,7 @@ namespace WeakSoul.CutScene
     {
         #region fields & properties
         [field: SerializeField] public int Id { get; private set; }
+        [field: SerializeField] public string SceneToLoad { get; private set; } = "Game Menu";
         public List<CutSceneInfo> CutScenes => cutScenes;
         [SerializeField] private List<CutSceneInfo> cutScenes = new List<CutSceneInfo>();
         #endregion fields & properties

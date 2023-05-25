@@ -126,6 +126,7 @@ namespace WeakSoul.GameMenu
 			if (playerLevel > 16 && adventureData.IsBossDefeated(0) && TryAddFlagAndShowPanel(TutorialFlag.Boss0Completed, 27)) return;
 			if (playerLevel > 41 && adventureData.IsBossDefeated(2) && TryAddFlagAndShowPanel(TutorialFlag.Boss2Completed, 32)) return;
 			if (playerLevel > 45 && TryAddFlagAndShowPanel(TutorialFlag.ShopRestore, 33)) return;
+			if (adventureData.IsBossDefeated(4) && TryAddFlagAndShowPanel(TutorialFlag.PortalInfo, 34)) return;
 
 			if (adventureData.IsBossNotDefeatedWhenMust(out bossId))
 			{

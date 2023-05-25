@@ -15,12 +15,12 @@ namespace WeakSoul.Adventure.Backpack
         #region methods
         private void OnEnable()
         {
-            CardsPanel.Instance.OnCardAdded += UpdateListData;
+            CardsPanel.OnCardAdded += UpdateListData;
             UpdateListData();
         }
         private void OnDisable()
         {
-            CardsPanel.Instance.OnCardAdded -= UpdateListData;
+            CardsPanel.OnCardAdded -= UpdateListData;
         }
         public override void UpdateListData()
         {

@@ -6,6 +6,7 @@ namespace Data
         Mountains,
         Water,
         Boss,
-        City
+        City,
+        Final
     }
 }

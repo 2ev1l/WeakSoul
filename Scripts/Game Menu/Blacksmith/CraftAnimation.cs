@@ -30,7 +30,7 @@ namespace WeakSoul.GameMenu.Blacksmith
 			Forge.OnForgeStart -= StartAnimtion;
 			StopAllCoroutines();
 		}
-		public void StartAnimtion()
+		public void StartAnimtion(int itemId)
 		{
 			itemImage.sprite = Forge.ForgeResultSprite;
 			AudioManager.PlayClip(Forge.ForgeResultSprite == badResult ? AudioStorage.Instance.MessySound : AudioStorage.Instance.SuccessCraftSound, Universal.AudioType.Sound);

@@ -29,8 +29,8 @@ namespace WeakSoul.CutScene
         }
         private void OnSceneChange()
         {
-            textLanguage.Id = cutScenesLoader.currentScene.TextId;
-            background.sprite = cutScenesLoader.currentScene.Background;
+            textLanguage.Id = cutScenesLoader.CurrentScene.TextId;
+            background.sprite = cutScenesLoader.CurrentScene.Background;
         }
         private void StartBlackScreenAnimation(float timeLasts)
         {

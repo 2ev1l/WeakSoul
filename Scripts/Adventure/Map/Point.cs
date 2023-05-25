@@ -86,6 +86,13 @@ namespace WeakSoul.Adventure.Map
 							return;
 						}
 						break;
+					case SpawnZone.Final:
+						if (PointsInit.Instance.TryGenerateFinal())
+						{
+							Data.SetZone(el);
+							return;
+						}
+						break;
 					default: throw new System.NotImplementedException("Spawn Zone");
 				}
 			}

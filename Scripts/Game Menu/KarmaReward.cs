@@ -4,6 +4,7 @@ using Data.Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Universal;
 
 namespace WeakSoul.GameMenu
@@ -11,6 +12,7 @@ namespace WeakSoul.GameMenu
 	public class KarmaReward : SingleSceneInstance
 	{
 		#region fields & properties
+		public static UnityAction OnRewardGained;
 		public static KarmaReward Instance { get; private set; }
 		private static bool doReward;
 		[SerializeField] private GameObject karmaPanel;
@@ -35,8 +37,11 @@ namespace WeakSoul.GameMenu
 			{
 				GainReward(out bool isRewardNotNull);
 				if (isRewardNotNull)
-					EnablePanel();
-			}
+				{
+                    EnablePanel();
+					OnRewardGained?.Invoke();
+                }
+            }
 		}
 		private void GainReward(out bool isRewardNotNull)
 		{
@@ -94,6 +99,16 @@ namespace WeakSoul.GameMenu
 		[ContextMenu("Add karma")]
 		private void SetKarma() => GameData.Data.PlayerData.Stats.ChangeKarmaBy(karmaToAdd);
 		[SerializeField] private int karmaToAdd;
+		[ContextMenu("Get reward")]
+		private void GetRewardTEST()
+		{
+            GainReward(out bool isRewardNotNull);
+            if (isRewardNotNull)
+            {
+                EnablePanel();
+                OnRewardGained?.Invoke();
+            }
+        }
 		#endregion methods
 	}
 }

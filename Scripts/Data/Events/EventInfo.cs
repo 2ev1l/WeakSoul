@@ -32,7 +32,10 @@ namespace Data.Events
 		private void GenerateShopData() => data.LoadEvent(3);
 		[ContextMenu("Generate enemies")]
 		private void GenerateEnemies() => data.GenerateBattleData();
-		[ContextMenu("Load default fight")]
+		[ContextMenu("Load event")]
+		private void LoadEvent() => data.LoadEvent(eventToLoad);
+		[SerializeField] private int eventToLoad;
+        [ContextMenu("Load default fight")]
 		private void LoadDefaultFight() => data.LoadEvent(1);
 		[ContextMenu("Load blacksmith")]
 		private void LoadBlacksmith() => data.LoadEvent(6);

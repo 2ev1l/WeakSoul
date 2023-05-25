@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Universal;
 
 namespace WeakSoul.Events
@@ -11,6 +12,7 @@ namespace WeakSoul.Events
 	public class SceneInit : SingleSceneInstance
 	{
 		#region fields & properties
+		public static UnityAction OnLeave;
 		public static SceneInit Instance { get; private set; }
 		[SerializeField] private StateMachine canvasStateMachine;
 		#endregion fields & properties
@@ -37,6 +39,7 @@ namespace WeakSoul.Events
 			int playerLevel = GameData.Data.PlayerData.Stats.ExperienceLevel.Level;
 			ChangePlayerExp(-CustomMath.Multiply(playerLevel, 20));
 		}
+		public void InvokeLeaveAction() => OnLeave?.Invoke();
 		private void ChangePlayerExp(int value) => GameData.Data.PlayerData.Stats.ExperienceLevel.Experience += value;
 		#endregion methods
 	}

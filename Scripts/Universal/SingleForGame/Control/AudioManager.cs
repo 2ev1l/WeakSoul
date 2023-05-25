@@ -42,6 +42,8 @@ namespace Universal
         private void PlayMusicDependOnScene()
         {
             string sceneName = SceneManager.GetActiveScene().name;
+            if (sceneName.Equals("Cut Scene")) return;
+
             if (menuMusicScenes.Contains(sceneName))
                 PlayMusic(AudioStorage.Instance.MenuMusic);
             else

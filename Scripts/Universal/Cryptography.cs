@@ -12,16 +12,12 @@ namespace Universal
         private static readonly string password = "43HD!6#783nHad83&NA8utna#^%Y2jnA*(";
         protected static string Encrypt(string message)
         {
-            //todo remove
-            return message;
             System.Security.Cryptography.SHA256 mySHA256 = System.Security.Cryptography.SHA256Managed.Create();
             byte[] key = mySHA256.ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
             return EncryptString(message, key, iv);
         }
         protected static string Decrypt(string encrypted)
         {
-            //todo remove
-            return encrypted;
             System.Security.Cryptography.SHA256 mySHA256 = System.Security.Cryptography.SHA256Managed.Create();
             byte[] key = mySHA256.ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
             return DecryptString(encrypted, key, iv);

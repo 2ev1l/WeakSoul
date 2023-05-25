@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Universal;
 using WeakSoul.GameMenu.Inventory;
 
@@ -14,6 +15,7 @@ namespace WeakSoul.GameMenu.Skills
         [SerializeField] private int setSkillSize = 6;
         [SerializeField] private int setOpenSkill = 0;
         [SerializeField] private int setSkillToFreeCell = 0;
+        public static UnityAction OnAttackSkillsChanged;
         public static SkillsPanelInit Instance { get; private set; }
 		public static SkillsCellController CellController { get; private set; }
         [SerializeField] private SkillsCellController cellController;
@@ -21,6 +23,7 @@ namespace WeakSoul.GameMenu.Skills
         [field: SerializeField] public Sprite LockedSkill { get; private set; }
         [field: SerializeField] public Material SkillDeffault { get; private set; }
         [field: SerializeField] public Material SkillNotBuyed { get; private set; }
+        [field: SerializeField] [field: ReadOnly] public int AttackSkillsCount { get; private set; }
         #endregion fields & properties
 
         #region methods
@@ -33,11 +36,13 @@ namespace WeakSoul.GameMenu.Skills
         {
             PlayerStatsController.OnItemEquipped += CheckSkillEquipped;
             PlayerStatsController.OnItemDequipped += CheckCellDequipped;
+            GameData.Data.PlayerData.Skills.OnInventoryChanged += CheckAttackSkillsCount;
         }
         private void OnDisable()
         {
             PlayerStatsController.OnItemEquipped -= CheckSkillEquipped;
             PlayerStatsController.OnItemDequipped -= CheckCellDequipped;
+            GameData.Data.PlayerData.Skills.OnInventoryChanged -= CheckAttackSkillsCount;
         }
         private void CheckSkillEquipped(int itemId)
         {
@@ -50,6 +55,23 @@ namespace WeakSoul.GameMenu.Skills
             StatsItem statsItem = ItemsInfo.Instance.GetStatsItem(itemId);
             if (statsItem.SkillId == -1) return;
             GameData.Data.PlayerData.Skills.TryRemoveTempOpenedSkill(statsItem.SkillId);
+        }
+        private void CheckAttackSkillsCount(int itemId, int newCellId, int oldCellId) => CheckAttackSkillsCount();
+        private void CheckAttackSkillsCount()
+        {
+            PlayerData playerData = GameData.Data.PlayerData;
+            int attackSkillsCount = 0;
+            List<int> filledItems = playerData.Skills.GetFilledItems();
+            foreach (var el in filledItems)
+            {
+                Skill skill = SkillsInfo.Instance.GetSkill(el);
+                if (skill.Id == 9 || skill.Id == 38) continue;
+                if (skill.SkillType == SkillType.Attack)
+                    attackSkillsCount++;
+            }
+            if (this.AttackSkillsCount == attackSkillsCount) return;
+            this.AttackSkillsCount = attackSkillsCount;
+            OnAttackSkillsChanged?.Invoke();
         }
         public Sprite GetLineTexture(SkillType skillType) => skillType switch
         {

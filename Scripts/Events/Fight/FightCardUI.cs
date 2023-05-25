@@ -116,7 +116,6 @@ namespace WeakSoul.Events.Fight
         }
         private void OnDamageBlocked(DamageType damageType)
         {
-            //todo damage type switch ?
             List<SkillVFX> vfxs = physicalDefenseVFX.VFXs.ToList();
             vfxs.ForEach(x => x.SetPosition(skillsController.GetSkillAnimationPosition(x.FightPosition)));
             vfxs.ForEach(x => { if (x.ExposedName == "DefenseValue") x.SetParamValue(card.Stats.Defense); });

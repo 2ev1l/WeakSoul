@@ -32,6 +32,7 @@ namespace Universal
         [SerializeField] private PlayerStatsController playerStatsController;
         [SerializeField] private EquipmentUI equipmentUI;
 		[SerializeField] private MapReset mapReset;
+		[SerializeField] private SteamAchievements steamAchievements;
 
 		[SerializeField] private PhysicalStatsItemListStorage statsStorage;
         [SerializeField] private ItemsInfo itemsInfo;
@@ -119,6 +120,7 @@ namespace Universal
             enemiesInfo.Init(); ChangeObjectState(enemiesInfo);
 			mapReset.Init(); ChangeObjectState(mapReset);
 
+            ChangeObjectState(steamAchievements);
 			ChangeObjectState(equipmentUI);
 
             canvasInitList.ForEach(x => x.Init()); canvasInitList.ForEach(x => ChangeObjectState(x));

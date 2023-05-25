@@ -10,6 +10,7 @@ namespace WeakSoul.GameMenu.TrainingArea
     public abstract class MiniGame : MonoBehaviour
     {
         #region fields & properties
+        public static UnityAction<PhysicalStatsType> OnStatsGained;
         public UnityAction OnGameEnd;
         public UnityAction OnGameRestart;
 
@@ -44,6 +45,7 @@ namespace WeakSoul.GameMenu.TrainingArea
             PhysicalStats stats = GameData.Data.PlayerData.Stats;
             StatsReward reward = LevelsInfo.Instance.TrainingLevels.GetPreviousLevelByType(panelInfo.Type).Reward;
             stats.IncreaseStatsHidden(reward.Stats);
+            OnStatsGained?.Invoke(panelInfo.Type);
             ClosePanel();
         }
         private void ClosePanel()

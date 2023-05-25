@@ -15,6 +15,14 @@ namespace WeakSoul.Adventure.Backpack
 	public class SoulItem : MonoBehaviour, IListUpdater
 	{
 		#region fields & properties
+		/// <summary>
+		/// <see cref="{T0}"/> - itemId;
+		/// </summary>
+		public static UnityAction<int> OnSoulItemUsed;
+        /// <summary>
+        /// <see cref="{T0}"/> - itemId;
+        /// </summary>
+        public static UnityAction<int> OnSoulItemDestroyed;
 		public static UnityAction OnWaystoneUsed;
 		public GameObject rootObject => gameObject;
 		public int listParam => soulItem.Id;
@@ -59,11 +67,15 @@ namespace WeakSoul.Adventure.Backpack
 				case 335: UseJewelBox(10); break;
 				case 336: UseJewelBox(5); break;
 				case 342: UsePadnorasBox(); break;
-
 				default: throw new System.NotImplementedException($"{soulItem.Id} Id for soul item isn't implemented");
 			}
-			if (TryBreak())
+			OnSoulItemUsed?.Invoke(soulItem.Id);
+
+            if (TryBreak())
+			{
 				DoBreakEffect();
+				OnSoulItemDestroyed?.Invoke(soulItem.Id);
+			}
 			else
 				DoDefaultEffect();
 		}

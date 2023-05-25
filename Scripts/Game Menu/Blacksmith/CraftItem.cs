@@ -68,7 +68,7 @@ namespace WeakSoul.GameMenu.Blacksmith
                     break;
             }
         }
-        private void OnForge()
+        private void OnForge(int itemId)
         {
             GameData.Data.BlacksmithData.CurrentRecipe.SetItem(0, CraftingThing.None, cellIndex);
             StartCoroutine(SpriteBurn());

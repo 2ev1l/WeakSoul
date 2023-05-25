@@ -34,9 +34,8 @@ namespace WeakSoul.Events.Teleport
         private IEnumerator UseTeleport()
         {
             StartCoroutine(DoGlitchEffect());
-            //todo sound for vfx
+            
             yield return VFXAnimation.Animate(effectPrefab, spawnCanvas, teleportVFX.VFXs);
-
             Player.CurrentPointId = pointId;
             LoadAdventure(0.4f);
         }

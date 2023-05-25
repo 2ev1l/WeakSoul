@@ -50,6 +50,7 @@ namespace Data
         /// </summary>
         /// <returns></returns>
         public List<CraftSet> GetItems() => order.ToList();
+        //public void ChangeID(int id) => this.id = id;
         #endregion methods
     }
 }

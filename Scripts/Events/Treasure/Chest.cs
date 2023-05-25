@@ -22,6 +22,7 @@ namespace WeakSoul.Events.Treasure
         [SerializeField] private VisualEffect vfxPrefab;
         [SerializeField] private VFXAnimation openChestVFX;
         [SerializeField] private VFXAnimation badRewardVFX;
+        [SerializeField] private AudioClip openClip;
 
         [Header("Debug")]
         [SerializeField][ReadOnly] private ChestData data;
@@ -36,7 +37,6 @@ namespace WeakSoul.Events.Treasure
         public void OpenChest() => StartCoroutine(ChestOpen());
         private IEnumerator ChestOpen()
         {
-            //todo sound in vfx
             List<RewardData> rewards = data.GetReward();
             List<RewardData> gainRewards = new();
             foreach (var el in rewards)
@@ -49,12 +49,14 @@ namespace WeakSoul.Events.Treasure
                 catch { Debug.LogError($"Error reward with {el.Id}-{el.Type}"); }
             }
             StartCoroutine(DoGlitch(0, 1));
+            Invoke(nameof(PlayClip), 0.7f);
             yield return VFXAnimation.Animate(vfxPrefab, spawnCanvas, openChestVFX.VFXs);
             DoRewardParticles(gainRewards);
             if (gainRewards.Count == 0 || data.Tier == ChestTier.Bad || data.Tier == ChestTier.Terrible)
                 yield return VFXAnimation.Animate(vfxPrefab, spawnCanvas, badRewardVFX.VFXs);
             Invoke(nameof(LoadAdventure), 2f);
         }
+        private void PlayClip() => AudioManager.PlayClip(openClip, Universal.AudioType.Sound);
         private IEnumerator DoGlitch(float startValue, float endValue)
         {
             ValueSmoothChanger vsc = gameObject.AddComponent<ValueSmoothChanger>();

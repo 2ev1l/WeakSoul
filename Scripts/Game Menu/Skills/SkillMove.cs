@@ -25,34 +25,37 @@ namespace WeakSoul.GameMenu.Skills
 		}
 		private ShowSkillHelp help;
 		[SerializeField] private ShowTextHelp attackHelpWarning;
-		#endregion fields & properties
+        #endregion fields & properties
 
-		#region methods
-		public void OnPointerClick(PointerEventData eventData)
+        #region methods
+        private void OnEnable()
+        {
+			SkillsPanelInit.OnAttackSkillsChanged += CheckSkillsAllow;
+        }
+        private void OnDisable()
+        {
+			SkillsPanelInit.OnAttackSkillsChanged -= CheckSkillsAllow;
+        }
+        public void OnPointerClick(PointerEventData eventData)
 		{
 			if (eventData.button != PointerEventData.InputButton.Left || attackHelpWarning.enabled) return;
 			if (SkillsPanelInit.CellController.FreeCell != -1)
 				GameData.Data.PlayerData.Skills.SetItem(skillRender.Id, SkillsPanelInit.CellController.FreeCell);
 		}
+		private void CheckSkillsAllow() => CheckSkillAllow();
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns>Is skill allowed</returns>
 		public bool CheckSkillAllow()
 		{
-			if (skillRender.Skill.SkillType != SkillType.Attack)
+			Skill skill = skillRender.Skill;
+			if (skill.SkillType != SkillType.Attack || skill.Id == 9 || skill.Id == 38)
 			{
 				SetDefaultHelp();
 				return true;
 			}
-			PlayerData playerData = GameData.Data.PlayerData;
-			int attackSkillsCount = 0;
-			foreach (var el in playerData.Skills.GetFilledItems())
-			{
-				if (SkillsInfo.Instance.GetSkill(el).SkillType == SkillType.Attack)
-					attackSkillsCount++;
-			}
-			attackHelpWarning.enabled = attackSkillsCount > 1;
+			attackHelpWarning.enabled = SkillsPanelInit.Instance.AttackSkillsCount > 1;
 			return !attackHelpWarning.enabled;
 		}
 		public void SetDefaultHelp()

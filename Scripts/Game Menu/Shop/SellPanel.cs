@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Universal;
 using WeakSoul.GameMenu.Inventory;
 
@@ -11,6 +12,10 @@ namespace WeakSoul.GameMenu.Shop
     public class SellPanel : SingleSceneInstance
     {
         #region fields & properties
+        /// <summary>
+        /// <see cref="{T0}"/> - sold item id;
+        /// </summary>
+        public static UnityAction<int> OnItemSold;
         public static SellPanel Instance { get; private set; }
 
         [SerializeField] private GameObject panel;
@@ -38,9 +43,11 @@ namespace WeakSoul.GameMenu.Shop
         private void OnKeyDown(KeyCode keyCode) => DiscardSell();
         public void ApplySell()
         {
+            int itemId = this.itemId;
             Wallet itemSellPrice = ItemsInfo.Instance.GetItem(itemId).GetSellPrice();
             GameData.Data.PlayerData.Inventory.RemoveItem(cellId);
             GameData.Data.PlayerData.Wallet.IncreaseValues(itemSellPrice);
+            OnItemSold?.Invoke(itemId);
             cellId = -1;
             panel.SetActive(false);
             AudioManager.PlayClip(AudioStorage.Instance.BuySound, Universal.AudioType.Sound);

@@ -11,7 +11,10 @@ namespace WeakSoul.GameMenu.Blacksmith
     public class Forge : MonoBehaviour
     {
         #region fields & properties
-        public static UnityAction OnForgeStart;
+        /// <summary>
+        /// <see cref="{T0}"/> - itemId;
+        /// </summary>
+        public static UnityAction<int> OnForgeStart;
         public static Sprite ForgeResultSprite { get; private set; }
         [SerializeField] private Sprite nullSprite;
         #endregion fields & properties
@@ -21,16 +24,21 @@ namespace WeakSoul.GameMenu.Blacksmith
         {
             CraftRecipe currnet = GameData.Data.BlacksmithData.CurrentRecipe;
             CraftRecipeSO crafted = RecipesInfo.Instance.Recipes.Find(x => x.Recipe.IsCraftPossible(currnet));
+            int itemId = -1;
             if (crafted == null)
                 ForgeResultSprite = nullSprite;
             else
             {
-                GameData.Data.BlacksmithData.TryOpenRecipe(crafted.Recipe.Id);
-                ForgeResultSprite = RecipesInfo.Instance.GetRecipeTexture(crafted.Recipe.Id);
-                TryAddItemToInventory(crafted.Recipe.ItemId);
+                int recipeId = crafted.Recipe.Id;
+                BlacksmithData blacksmithData = GameData.Data.BlacksmithData;
+                blacksmithData.TryOpenRecipe(recipeId);
+                blacksmithData.CraftsCount += 1;
+                ForgeResultSprite = RecipesInfo.Instance.GetRecipeTexture(recipeId);
+                itemId = crafted.Recipe.ItemId;
+                TryAddItemToInventory(itemId);
             }
             Craft.Instance.OnDisable();
-            OnForgeStart?.Invoke();
+            OnForgeStart?.Invoke(itemId);
             AudioManager.PlayClip(AudioStorage.Instance.HammerSound, Universal.AudioType.Sound);
             StartCoroutine(ResetList());
         }

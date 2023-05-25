@@ -21,7 +21,7 @@ namespace Universal
 		public static SceneLoader Instance { get; private set; }
 		public static bool IsSceneLoading { get; private set; }
 		public static float ScreenFadeTime { get; private set; } = 1f;
-		private List<string> SavingScenes { get; } = new List<string>() { "Cut Scene", "Game Menu", "City" };
+		private static List<string> SavingScenes { get; } = new() { "Game Menu", "City" };
 
 		[SerializeField] private CanvasGroup fadeCanvas;
 		private static string sceneToLoad;

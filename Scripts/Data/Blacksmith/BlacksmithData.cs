@@ -13,11 +13,22 @@ namespace Data
         /// <see cref="{T0}"/> recipe id;
         /// </summary>
         public UnityAction<int> OnRecipeOpened;
+        public UnityAction<int> OnCraftsCountChanged;
 
         public IEnumerable<int> OpenedRecipes => openedRecipes;
         [SerializeField] private List<int> openedRecipes = new() { 0, 3 };
         public CraftRecipe CurrentRecipe => currentRecipe;
         [SerializeField] private CraftRecipe currentRecipe = new();
+        public int CraftsCount
+        {
+            get => craftsCount;
+            set
+            {
+                craftsCount = value;
+                OnCraftsCountChanged?.Invoke(craftsCount);
+            }
+        }
+        [SerializeField] private int craftsCount;
         #endregion fields & properties
 
         #region methods

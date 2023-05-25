@@ -2,11 +2,12 @@ using UnityEngine;
 
 namespace DebugStuff
 {
-    public class ConsoleToGUI : MonoBehaviour //todo delete
+    public class ConsoleToGUI : MonoBehaviour
     {
+#if false
 #if !UNITY_EDITOR
 #region fields
-        private string myLog = "*begin log";
+        private string myLog = "*Press [Space] to open/close developer window";
         private string filename = "";
         private bool doShow = true;
         private int kChars = 700;
@@ -56,6 +57,7 @@ namespace DebugStuff
             GUI.TextArea(new Rect(10, 10, 540, 370), myLog);
         }
 #endregion methods
+#endif
 #endif
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Universal;
 
@@ -11,6 +12,7 @@ namespace WeakSoul.Events.Fight
 	public class PlayerCard : FightCard
 	{
 		#region fields & properties
+		public static UnityAction OnPlayerEscaped;
 		public override EntityStats Stats => playerData.Stats;
 		public PlayerData PlayerData => playerData;
 		[Header("Player Card")]

@@ -16,6 +16,7 @@ namespace WeakSoul.Adventure.Map
 	{
 		#region fields & properties
 		public static Player Instance { get; private set; }
+		public static UnityAction<int> OnPointStep;
 		/// <summary>
 		/// <see cref="{T0}"/> pointId;
 		/// </summary>
@@ -185,7 +186,8 @@ namespace WeakSoul.Adventure.Map
 		}
 		private IEnumerator CheckMovedZone(Point point)
 		{
-			if (point.Data.ChoosedEvent.SpawnZone != SpawnZone.Water) yield break;
+			OnPointStep?.Invoke(point.Data.PointId);
+            if (point.Data.ChoosedEvent.SpawnZone != SpawnZone.Water) yield break;
 			DirectionInfo di = point.Data.DirectionsInfo.GetNonWaterDirection();
 			currentPointId = di.PointId;
 			yield return MoveTo(di.PointId, false);

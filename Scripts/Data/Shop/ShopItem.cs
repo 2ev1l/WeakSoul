@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Universal;
 
 namespace Data
@@ -10,6 +11,12 @@ namespace Data
     public class ShopItem
     {
         #region fields & properties
+        /// <summary>
+        /// <see cref="{T0}"/> - itemId;
+        /// <see cref="{T1}"/> - item type;
+        /// </summary>
+        public static UnityAction<int, ShopItemType> OnItemBought;
+        
         public int Id => id;
         [SerializeField] private int id;
         public int Value => value;
@@ -49,6 +56,7 @@ namespace Data
             GameData.Data.PlayerData.Wallet.DecreaseValues(GetPrice());
             GameData.Data.ShopData.RemoveItem(this);
             GameData.Data.PlayerData.Inventory.SetItem(Id, GameData.Data.PlayerData.Inventory.GetFreeCell());
+            OnItemBought?.Invoke(Id, Type);
             AudioManager.PlayClip(AudioStorage.Instance.BuySound, Universal.AudioType.Sound);
         }
         public virtual Wallet GetPrice() => ItemsInfo.Instance.GetItem(Id).Price;

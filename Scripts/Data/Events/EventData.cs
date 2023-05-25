@@ -12,6 +12,7 @@ namespace Data.Events
     public class EventData
     {
         #region fields & properties
+        public static UnityAction<MapEvent> OnEventLoading;
         public UnityAction<SubZoneData> OnSubZoneChanged;
         public UnityAction<MapEvent> OnMapEventChanged;
         public BattleData BattleData => battleData;
@@ -28,7 +29,7 @@ namespace Data.Events
         public void LoadEvent(int eventId)
         {
             SetMapEvent(MapEventsInfo.Instance.GetEvent(eventId));
-            switch (mapEvent.EventType)
+            switch (Event.EventType)
             {
                 case EventType.Fight: GenerateBattleData(); break;
                 case EventType.Shop: GenerateShopData(); break;
@@ -36,14 +37,13 @@ namespace Data.Events
 				case EventType.Blacksmith: break; //on scene
 				case EventType.Teleport: break; //on scene
 				case EventType.Camp: break; //on scene
-				case EventType.Puzzle: GeneratePuzzleData(); break;
+				case EventType.Puzzle: break; //none
             }
-
+            OnEventLoading?.Invoke(Event);
             SceneLoader.Instance.LoadSceneFade("Events", 2f);
         }
         public void GenerateBattleData() => battleData.GenerateData(subZoneData, mapEvent);
         private void GenerateShopData() => shopData.GenerateItems(1, 3, 1, true, 50, false, 1);
-        private void GeneratePuzzleData() { } //todo
 
         public void SetMapEvent(MapEvent mapEvent)
         {

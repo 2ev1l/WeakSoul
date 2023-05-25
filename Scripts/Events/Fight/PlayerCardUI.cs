@@ -73,7 +73,10 @@ namespace WeakSoul.Events.Fight
 		public void TryEscape()
 		{
 			if (CustomMath.GetRandomChance(escapeChance))
+			{
 				Escape();
+				PlayerCard.OnPlayerEscaped?.Invoke();
+            }
 			else
 			{
 				int damage = Mathf.Max(Mathf.RoundToInt(Card.Stats.Health * 0.2f), 1);

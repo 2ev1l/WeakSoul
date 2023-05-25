@@ -13,7 +13,7 @@ namespace WeakSoul.Adventure.Map
 	public class CardsPanel : SingleSceneInstance
 	{
 		#region fields & properties
-		public UnityAction OnCardAdded;
+		public static UnityAction OnCardAdded;
 		public static CardsPanel Instance { get; private set; }
 		public static List<int> ChoosedCards { get; private set; } = new();
 		[SerializeField] private CanvasGroup canvasGroup;

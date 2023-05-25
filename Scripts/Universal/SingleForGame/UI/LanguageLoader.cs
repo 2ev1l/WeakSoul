@@ -47,7 +47,7 @@ namespace Universal
 				return;
 			}
 			string text = GetTextByType(textType, id);
-			TryReplaceText(text, textType);
+			text = TryReplaceText(text, textType);
 
 			Text.text = text + additionalText;
 			if (TryGetComponent(out TextOutline textOutline))
@@ -79,7 +79,7 @@ namespace Universal
 			}
 			Text.text = text;
 		}
-		private static void TryReplaceText(string text, TextType textType)
+		private static string TryReplaceText(string text, TextType textType)
 		{
 			if (text.Length > 0 && text[..1].Equals("="))
 			{
@@ -90,11 +90,12 @@ namespace Universal
 				}
 				catch { }
 			}
+			return text;
 		}
 		public static string GetTextByType(TextType textType, int id)
 		{
 			string text = GetText(textType, id);
-			TryReplaceText(text, textType);
+			text = TryReplaceText(text, textType);
 			return text;
 		}
 		private static string GetText(TextType textType, int id)

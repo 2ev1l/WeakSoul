@@ -13,7 +13,10 @@ namespace WeakSoul.Events.Fight
 	{
 		#region fields & properties
 		public UnityAction<List<RewardData>> OnRewardAdded;
-		public static UnityAction OnEnemyDefeated;
+		/// <summary>
+		/// <see cref="{T0}"/> - enemy id;
+		/// </summary>
+		public static UnityAction<int> OnEnemyDefeated;
 		public EnemyData EnemyData => enemyData;
 		[Header("Enemy Card")]
 		[SerializeField] private EnemyData enemyData;
@@ -69,7 +72,7 @@ namespace WeakSoul.Events.Fight
 			if (enemyData.Stats.IsDead && !IsDeathInitialized)
 			{
 				AddReward();
-				OnEnemyDefeated?.Invoke();
+				OnEnemyDefeated?.Invoke(enemyData.Id);
 			}
 			base.OnDead();
 		}

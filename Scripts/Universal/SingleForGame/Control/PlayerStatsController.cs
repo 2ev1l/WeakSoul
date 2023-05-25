@@ -66,7 +66,7 @@ namespace Universal
 			GameData.Data.PlayerData.Stats.OnEffectRemoved -= OnEffectRemoved;
 			EnemyCard.OnEnemyDefeated -= OnEnemyDefeated;
 		}
-		private void OnEnemyDefeated()
+		private void OnEnemyDefeated(int enemyId)
 		{
 			PlayerData playerData = GameData.Data.PlayerData;
 			ItemsInventory playerInventory = playerData.Inventory;
@@ -275,8 +275,11 @@ namespace Universal
 		[ContextMenu("Add Soul life")]
 		private void AddSoulLife() => GameData.Data.PlayerData.Stats.SoulLife += soulLifeToAdd;
 		[SerializeField] private int soulLifeToAdd;
+        [ContextMenu("Add Karma")]
+        private void AddKarma() => GameData.Data.PlayerData.Stats.ChangeKarmaBy(karmaToAdd);
+        [SerializeField] private int karmaToAdd;
 
-		[ContextMenu("SOUL DEAD")]
+        [ContextMenu("SOUL DEAD")]
 		private void SD()
 		{
 			GameData.Data.PlayerData.Stats.SoulLife = 0;
